@@ -1,4 +1,5 @@
 const jwt = require("jsonwebtoken");
+const secretKey = require('../config/config.js').J_KEY;
 module.exports = {
   validateRegister: (req, res, next) => {
     // username min length 3
@@ -29,7 +30,7 @@ module.exports = {
       const token = req.headers.authorization.split(' ')[1];
       const decoded = jwt.verify(
         token,
-        'SECRETKEY'
+        secretKey
       );
       req.userData = decoded;
       next();

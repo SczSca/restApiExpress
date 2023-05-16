@@ -1,5 +1,5 @@
 const mysqlConnection = require('../db/conexion.cjs'); //
-
+const secretKey = require('../config/config.js').J_KEY;
 const bcrypt = require('bcryptjs');
 const uuid = require('uuid');
 const jwt = require('jsonwebtoken');
@@ -30,7 +30,7 @@ const signUp = (req, res, next) =>{
                   )}, ${mysqlConnection.escape(hash)}, now())`,
                   (err, result) => {
                     if (err) {
-                      throw err;
+                      // throw err;
                       return res.status(400).send({
                         msg: err
                       });
@@ -80,8 +80,8 @@ const login = (req, res, next) =>{
                     username: result[0].username,
                     userId: result[0].id
                   },
-                  'SECRETKEY', {
-                    expiresIn: '7d'
+                  secretKey, {
+                    expiresIn: '2 minutes'
                   }
                 );
                 mysqlConnection.query(
